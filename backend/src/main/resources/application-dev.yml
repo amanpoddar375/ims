@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:postdb
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  security:
+    jwt:
+      enabled: false # Feature flag hook for JWT
+      secret: your-secret-key
+      expiration: 86400000
+server:
+  port: 8080
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
