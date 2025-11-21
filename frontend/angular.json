@@ -40,5 +40,8 @@
       }
     }
   },
-  "defaultProject": "post-anything"
+  "defaultProject": "post-anything",
+  "cli": {
+    "analytics": "2226dcb9-537e-40b5-8f08-711e160780d4"
+  }
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PostService } from '../../core/services/post.service';
+import { Post } from '../../models/post';
 import { HttpErrorService } from '../../core/services/http-error.service';
 
 @Component({
@@ -56,7 +57,7 @@ import { HttpErrorService } from '../../core/services/http-error.service';
 })
 export class PostFormComponent {
   error = '';
-  form = this.fb.group({
+  form = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
     description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(5000)]],
     type: ['ISSUE', Validators.required],
@@ -68,7 +69,15 @@ export class PostFormComponent {
 
   submit() {
     if (this.form.invalid) return;
-    this.postService.create(this.form.value).subscribe({
+    const value = this.form.value;
+    const payload: Partial<Post> = {
+      title: value.title,
+      description: value.description,
+      type: value.type as Post['type'],
+      priority: value.priority ? value.priority as Post['priority'] : undefined,
+      attachmentUrl: value.attachmentUrl || undefined
+    };
+    this.postService.create(payload).subscribe({
       next: () => this.router.navigate(['/']),
       error: e => this.error = this.err.format(e)
     });
